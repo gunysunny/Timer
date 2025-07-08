@@ -19,6 +19,7 @@ function format(sec) {
 function BuffTimer({ name, timeLeft, onStart, hotkey }) {
   return (
     <div style={{
+      
       display: "flex",
       gap: "12px",
       marginBottom: "8px",
@@ -29,7 +30,7 @@ function BuffTimer({ name, timeLeft, onStart, hotkey }) {
       <span style={{
         width: 60,
         fontFamily: "monospace",
-        fontSize: "1.2rem",
+        fontSize: "1rem",
         color: "black",
         textAlign: "center"
       }}>{format(timeLeft)}</span>
@@ -40,11 +41,11 @@ function BuffTimer({ name, timeLeft, onStart, hotkey }) {
           color: "black",
           border: "1.5px solid #222",
           borderRadius: 5,
-          fontWeight: "bold"
+          fontWeight: "base"
         }}
         onClick={onStart}
       >
-        버프시작
+        버프시간
       </button>
       <span style={{ color: "black", fontSize: "0.95rem", textAlign: "center" }}>({hotkey})</span>
     </div>
@@ -83,10 +84,11 @@ export default function App() {
     <div
       style={{
         maxWidth: 350,
+        overflow: "hidden",
         margin: "40px auto",
         padding: 20,
         borderRadius: 16,
-        background: "rgba(255,255,255,0.80)", // 반투명 흰색
+        background: "rgba(255,255,255,0.60)", // 반투명 흰색
         textAlign: "center",
         boxShadow: "0 2px 12px #0002",
         userSelect: "none",
@@ -130,19 +132,6 @@ export default function App() {
         title="닫기"
       >×</button>
 
-      {/* 메인 타이틀 */}
-      <h1 style={{
-        fontSize: "1.4rem",
-        fontWeight: "bold",
-        marginBottom: 20,
-        color: "black",
-        textAlign: "center",
-        marginTop: 16,
-        letterSpacing: "1px"
-      }}>
-        파티 버프 타이머
-      </h1>
-
       {/* 버프 타이머 리스트 */}
       {members.map((m, idx) => (
         <BuffTimer
@@ -160,7 +149,6 @@ export default function App() {
         color: "black",
         textAlign: "center"
       }}>
-        각 파티원에 버프를 사용하면 <b>버프시작</b> 버튼 또는 <b>Q/W/E</b> 단축키로 타이머를 시작하세요.<br />
         (버프 유지시간: {BUFF_DURATION / 60}분)
       </div>
     </div>
