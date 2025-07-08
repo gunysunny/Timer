@@ -10,7 +10,25 @@
     "preview": "vite preview",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
-    "electron": "electron electron/main.cjs"
+    "electron": "electron electron/main.cjs",
+    "dist": "electron-builder"
+  },
+  "build": {
+    "appId": "com.guni.partybufftimer",
+    "productName": "PartyBuffTimer",
+    "files": [
+      "dist/**/*",
+      "electron/main.cjs"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "mac": {
+      "target": "dmg"
+    }
   },
   "dependencies": {
     "react": "^19.1.0",
@@ -24,6 +42,7 @@
     "@vitejs/plugin-react": "^4.5.2",
     "autoprefixer": "^10.4.21",
     "electron": "^37.2.0",
+    "electron-builder": "^26.0.12",
     "eslint": "^9.29.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
