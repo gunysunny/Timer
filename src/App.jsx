@@ -81,15 +81,7 @@ export default function App() {
       background: "white",
       textAlign: "center" // 전체 센터 정렬
     }}>
-      <h1 style={{
-        fontSize: "1.4rem",
-        fontWeight: "bold",
-        marginBottom: 20,
-        color: "black",
-        textAlign: "center"
-      }}>
-        파티 버프 타이머
-      </h1>
+      
       {members.map((m, idx) => (
         <BuffTimer
           key={m.name}
@@ -105,7 +97,7 @@ export default function App() {
         color: "black",
         textAlign: "center"
       }}>
-        각 파티원에 버프를 사용하면 <b>버프시작</b> 버튼 또는 <b>Alt+번호</b> 단축키로 타이머를 시작하세요.<br />
+
         (버프 유지시간: {BUFF_DURATION / 60}분)
       </div>
     </div>
