@@ -23,7 +23,7 @@ function BuffTimer({ name, timeLeft, onStart, hotkey }) {
       gap: "12px",
       marginBottom: "8px",
       alignItems: "center",
-      justifyContent: "center" // 센터 정렬
+      justifyContent: "center"
     }}>
       <span style={{ width: 70, color: "black", textAlign: "center" }}>{name}</span>
       <span style={{
@@ -56,9 +56,10 @@ export default function App() {
   const [timers, setTimers] = useState(Array(members.length).fill(0));
   const timerRef = useRef();
 
-  useHotkeys('alt+1', () => handleStart(0), [timers]);
-  useHotkeys('alt+2', () => handleStart(1), [timers]);
-  useHotkeys('alt+3', () => handleStart(2), [timers]);
+  // 단축키 설정 (Q/W/E 예시)
+  useHotkeys('q', () => handleStart(0), [timers]);
+  useHotkeys('w', () => handleStart(1), [timers]);
+  useHotkeys('e', () => handleStart(2), [timers]);
 
   React.useEffect(() => {
     timerRef.current = setInterval(() => {
@@ -71,33 +72,95 @@ export default function App() {
     setTimers(prev => prev.map((sec, i) => (i === idx ? BUFF_DURATION : sec)));
   }
 
+  // 닫기 버튼 기능(Electron 환경에서만 동작)
+  function handleClose() {
+    if (window.electronAPI && window.electronAPI.closeWindow) {
+      window.electronAPI.closeWindow();
+    }
+  }
+
   return (
-    <div style={{
-      maxWidth: 350,
-      margin: "40px auto",
-      padding: 20,
-      borderRadius: 12,
-      boxShadow: "0 2px 12px #0001",
-      background: "white",
-      textAlign: "center" // 전체 센터 정렬
-    }}>
-      
+    <div
+      style={{
+        maxWidth: 350,
+        margin: "40px auto",
+        padding: 20,
+        borderRadius: 16,
+        background: "rgba(255,255,255,0.80)", // 반투명 흰색
+        textAlign: "center",
+        boxShadow: "0 2px 12px #0002",
+        userSelect: "none",
+        position: "relative"
+      }}
+    >
+      {/* 드래그 가능한 타이틀 바 */}
+      <div
+        style={{
+          width: "100%",
+          height: 30,
+          position: "absolute",
+          top: 0,
+          left: 0,
+          WebkitAppRegion: "drag",
+          zIndex: 0,
+          background: "transparent",
+          borderTopLeftRadius: 16,
+          borderTopRightRadius: 16,
+        }}
+      ></div>
+      {/* 닫기 버튼 */}
+      <button
+        style={{
+          position: "absolute",
+          top: 6,
+          right: 12,
+          background: "#ff4444",
+          color: "white",
+          border: "none",
+          borderRadius: "50%",
+          width: 26,
+          height: 26,
+          fontWeight: "bold",
+          fontSize: 18,
+          cursor: "pointer",
+          zIndex: 10,
+          WebkitAppRegion: "no-drag", // 닫기버튼은 드래그 불가
+        }}
+        onClick={handleClose}
+        title="닫기"
+      >×</button>
+
+      {/* 메인 타이틀 */}
+      <h1 style={{
+        fontSize: "1.4rem",
+        fontWeight: "bold",
+        marginBottom: 20,
+        color: "black",
+        textAlign: "center",
+        marginTop: 16,
+        letterSpacing: "1px"
+      }}>
+        파티 버프 타이머
+      </h1>
+
+      {/* 버프 타이머 리스트 */}
       {members.map((m, idx) => (
         <BuffTimer
           key={m.name}
           name={m.name}
           timeLeft={timers[idx]}
           onStart={() => handleStart(idx)}
-          hotkey={`Alt+${idx + 1}`}
+          hotkey={["Q", "W", "E"][idx]}
         />
       ))}
+
       <div style={{
         marginTop: 16,
         fontSize: "0.97rem",
         color: "black",
         textAlign: "center"
       }}>
-
+        각 파티원에 버프를 사용하면 <b>버프시작</b> 버튼 또는 <b>Q/W/E</b> 단축키로 타이머를 시작하세요.<br />
         (버프 유지시간: {BUFF_DURATION / 60}분)
       </div>
     </div>

@@ -19,7 +19,8 @@
     "productName": "PartyBuffTimer",
     "files": [
       "dist/**/*",
-      "electron/main.cjs"
+      "electron/main.cjs",
+      "electron/preload.js"
     ],
     "directories": {
       "buildResources": "assets"
