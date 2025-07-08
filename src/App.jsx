@@ -51,7 +51,6 @@ export default function App() {
       });
     }
   }, []);
-
   React.useEffect(() => {
     timerRef.current = setInterval(() => {
       setTimers(prev => prev.map(sec => (sec > 0 ? sec - 1 : 0)));
